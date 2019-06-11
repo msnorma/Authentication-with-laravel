@@ -7,12 +7,20 @@ Multi-user authentication for admins, subadmins and users.
 
 ##### Setting up Database for admins (super users) and for customers (users, the people interacting with the system)
 
+
+
 *First step*
 > run `php artisan make:migration create_admins_table`
-> run `php artisa make:migration create_customers_table`
+> run `php artisan make:migration create_customers_table`
+
 
 *Second step*
 > navigate to your database folder and you will see your `admins` and `customers` schema, edit the file with the specific coloumn fields you would like for each table to have.
 
+*when all of that is done run `php artisan migrate`*
 
+##### Setting up your `Admin` and `Customer` Models
+
+*First step*
+> run `php artisan make:model Admin`
 
