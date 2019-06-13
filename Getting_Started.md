@@ -23,4 +23,7 @@ Multi-user authentication for admins, subadmins and users.
 
 *First step*
 > run `php artisan make:model Admin`
+> run `php artisan make:model Customer`
 
+> Extend both your classes to `Athenticatable` and add the following lines to your code **Admin** and **Customer** Models.
+> rememmber to include `use Illuminate\Foundation\Auth\User as Authenticatable;` in your Models.
