@@ -3,10 +3,15 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\Admin;
+use App\Customer;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+
+namespace App\Http\Controllers\Auth;
 
 class RegisterController extends Controller
 {
@@ -37,7 +42,9 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+      $this->middleware('guest');
+      $this->middleware('guest:admin');
+      $this->middleware('guest:customer');
     }
 
     /**
@@ -51,7 +58,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password' => ['required', 'string', 'min:6', 'confirmed'],
         ]);
     }
 
@@ -59,14 +66,43 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return \App\User
+     * @return \App\Admin
      */
-    protected function create(array $data)
+    protected function createAdmin(Request $request)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+      $this->validator($request->all())->validate();
+      $admin = Admin::create([
+          'name' => $request['name'],
+          'email' => $request['email'],
+          'password' => Hash::make($request['password']),
+      ]);
+      return redirect()->intended('login/admin');
+    }
+
+    /**
+     * Create a new user instance after a valid registration.
+     *
+     * @param  array  $data
+     * @return \App\Customer
+     */
+    protected function createCustomer(Request $request)
+    {
+      $this->validator($request->all())->validate();
+      $writer = Customer::create([
+          'name' => $request['name'],
+          'email' => $request['email'],
+          'password' => Hash::make($request['password']),
+      ]);
+      return redirect()->intended('login/writer');
+    }
+
+    public function showAdminRegisterForm()
+    {
+        return view('auth.register', ['url' => 'admin']);
+    }
+
+    public function showCustomerRegisterForm()
+    {
+        return view('auth.register', ['url' => 'customer']);
     }
 }
