@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
-namespace App\Http\Controllers\Auth;
 
 class RegisterController extends Controller
 {
@@ -88,12 +87,12 @@ class RegisterController extends Controller
     protected function createCustomer(Request $request)
     {
       $this->validator($request->all())->validate();
-      $writer = Customer::create([
+      $customer = Customer::create([
           'name' => $request['name'],
           'email' => $request['email'],
           'password' => Hash::make($request['password']),
       ]);
-      return redirect()->intended('login/writer');
+      return redirect()->intended('login/customer');
     }
 
     public function showAdminRegisterForm()
