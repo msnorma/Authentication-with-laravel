@@ -21,11 +21,11 @@ class RedirectIfAuthenticated
           return redirect('/home');
         }
 
-        if($guard == 'admin' && Auth::guard($guard)->check()) {
+        if($guard == "admin" && Auth::guard($guard)->check()) {
           return redirect('/admin');
         }
 
-        if($guard == 'customer' && Auth::guard($guard)->check()) {
+        if($guard == "customer" && Auth::guard($guard)->check()) {
           return redirect('/customer');
         }
 
