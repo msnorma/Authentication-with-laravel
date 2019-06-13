@@ -23,4 +23,26 @@ Multi-user authentication for admins, subadmins and users.
 
 *First step*
 > run `php artisan make:model Admin`
+> run `php artisan make:model Customer`
 
+> Extend both your classes to `Athenticatable` and add the following lines to your code **Admin** and **Customer** Models.
+> rememmber to include `use Illuminate\Foundation\Auth\User as Authenticatable;` in your Models.
+
+##### Setting up your **gaurds** and **providers**
+*Two types of gaurds web and api, we will be using the web gaurd.*
+
+> head to `auth.php` under your `config` folder
+> set up your authentication gaurd by edit the auth.php file with the following:
+> we will use 'sessions' as our driver as this will be a browser gaurd.
+
+`'admin' => [
+          'driver' => 'session',
+          'provider' => 'admins',
+        ],`
+
+`'customer' => [
+          'driver' => 'session',
+          'provider' => 'customers',
+        ],`
+        
+ 
